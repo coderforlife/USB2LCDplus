@@ -1,5 +1,5 @@
 #include <p18cxxx.h>
-#include <xlcd.h>
+#include "xlcd.h"
 
 /********************************************************************
 *       Function Name:  OpenXLCD                                    *
@@ -33,10 +33,12 @@ void OpenXLCD_1(void)
 #endif
         TRIS_RW = 0;                    // All control signals made outputs
         TRIS_RS = 0;
-        TRIS_E = 0;
+        TRIS_E1 = 0;
+        TRIS_E2 = 0;
         RW_PIN = 0;                     // R/W pin made low
         RS_PIN = 0;                     // Register select pin made low
-        E_PIN = 0;                      // Clock pin made low
+        E1_PIN = 0;                     // Clock pin made low
+        E2_PIN = 0;                     // Clock pin made low
 }
 
 void OpenXLCD_2(unsigned char lcdtype)
@@ -59,9 +61,11 @@ void OpenXLCD_2(unsigned char lcdtype)
         DATA_PORT |= 0b00000010;        // Function set cmd(4-bit interface)
 #endif
 #endif
-        E_PIN = 1;                      // Clock the cmd in
+        E1_PIN = 1;                     // Clock the cmd in
+        E2_PIN = 1;
         DelayFor18TCY();
-        E_PIN = 0;
+        E1_PIN = 0;
+        E2_PIN = 0;
         
         // Delay for at least 4.1ms
         DelayXLCD5ms();
@@ -78,9 +82,11 @@ void OpenXLCD_2(unsigned char lcdtype)
         DATA_PORT |= 0b00000010;
 #endif
 #endif
-        E_PIN = 1;                      // Clock the cmd in
+        E1_PIN = 1;                     // Clock the cmd in
+        E2_PIN = 1;
         DelayFor18TCY();
-        E_PIN = 0;
+        E1_PIN = 0;
+        E2_PIN = 0;
 
         // Delay for at least 100us
         DelayXLCD100();
@@ -97,9 +103,11 @@ void OpenXLCD_2(unsigned char lcdtype)
         DATA_PORT |= 0b00000010;
 #endif
 #endif
-        E_PIN = 1;                      // Clock cmd in
+        E1_PIN = 1;                     // Clock the cmd in
+        E2_PIN = 1;
         DelayFor18TCY();
-        E_PIN = 0;
+        E1_PIN = 0;
+        E2_PIN = 0;
 
 #ifdef BIT8                             // 8-bit interface
         TRIS_DATA_PORT = 0xff;          // Make data port input
@@ -113,27 +121,26 @@ void OpenXLCD_2(unsigned char lcdtype)
 
         // Set data interface width, # lines, font
         while(BusyXLCD());              // Wait if LCD busy
-        WriteCmdXLCD(lcdtype);          // Function set cmd
+        WriteCmdXLCD(LCD_BOTH, lcdtype);// Function set cmd
 
         // Turn the display off then on
         while(BusyXLCD());              // Wait if LCD busy
-        WriteCmdXLCD(DOFF&CURSOR_OFF&BLINK_OFF);        // Display OFF/Blink OFF
+        WriteCmdXLCD(LCD_BOTH, DOFF&CURSOR_OFF&BLINK_OFF); // Display OFF/Blink OFF
         //while(BusyXLCD());              // Wait if LCD busy
-        //WriteCmdXLCD(DON);              // Display ON/Blink ON
+        //WriteCmdXLCD(LCD_BOTH, DON);    // Display ON/Blink ON
 
         // Clear display
         while(BusyXLCD());              // Wait if LCD busy
-        WriteCmdXLCD(0x01);             // Clear display
+        WriteCmdXLCD(LCD_BOTH, 0x01);   // Clear display
 
         // Set entry mode inc, no shift
         while(BusyXLCD());              // Wait if LCD busy
-        //WriteCmdXLCD(SHIFT_CUR_LEFT);   // Entry Mode
-        WriteCmdXLCD(0b00000110);		// Entry mode: move cursor right on write/read
+        //WriteCmdXLCD(LCD_BOTH, SHIFT_CUR_LEFT);   // Entry Mode
+		WriteCmdXLCD(LCD_BOTH, 0b00000110);		// Entry mode: move cursor right on write/read
 
         // Set DD Ram address to 0
         while(BusyXLCD());              // Wait if LCD busy
-        WriteCmdXLCD(0b10000000);       // Set Display data ram address to 0
+        WriteCmdXLCD(LCD_BOTH, 0b10000000);       // Set Display data ram address to 0
 
         return;
 }
-

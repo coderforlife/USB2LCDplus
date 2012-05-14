@@ -1,6 +1,18 @@
 #ifndef _CMDS_H_
 #define _CMDS_H_
 
+
+/**
+ * LCD Types, used by EEP_LCD_TYPE, SET_LCD_TYPE, SetLCDType, GetLCDType
+ */
+#define LCD_NONE		0u
+#define LCD_HD44780		1u // Also supports KS0066U and maybe KS0073
+#define LCD_DBL_HD44780	2u // Double HD44780 (4x40)
+#define LCD_16X4PT		3u // Uses different positions but otherwise the same as HD44780
+//#define LCD_T6963C
+//#define LCD_KS0066FF00
+
+
 /**
  * LCD Commands
  */
@@ -20,12 +32,13 @@
 /**
  * EEPROM Memory Locations
  */
-// We have max 256 bytes, this uses 0x00-0xA0, 0xFF (0-160, 255), there are 95 bytes left
+// We have max 256 bytes, this uses 0x00-0xF0, 0xFE-0xFF (0-240, 254-255), there are ~14 bytes left
 #define EEP_DISPLAY		0x00u // display, cursor, and blink
 #define EEP_DISPLAY_MIN	0x01u
 #define EEP_BACKLIGHT	0x02u
 #define EEP_CONTRAST	0x03u
 
+// this could be all one byte (saves 4 bytes)
 #define EEP_GPO_0		0x04u
 #define EEP_GPO_1		0x05u
 #define EEP_GPO_2		0x06u
@@ -56,21 +69,22 @@
 
 #define EEP_MSG_START	0x50u
 #define EEP_LINE_0		0x50u
-#define EEP_LINE_1		0x64u
-#define EEP_LINE_2		0x78u
-#define EEP_LINE_3		0x8Cu
+#define EEP_LINE_1		0x78u
+#define EEP_LINE_2		0xA0u
+#define EEP_LINE_3		0xC8u
 #define EEP_LINE(x)		EEP_MSG_START+20*x
 #define EEP_MSG(x,c)	EEP_LINE(x)+c	// the c-th character on the x-th line
 
+#define EEP_LCD_TYPE	0xFE // normal, large, and others
+
 #define EEP_FIRMWARE	0xFF // this byte is set to 1 when the firmware will be reprogrammed after a RESET
+
 
 /**
  * Commands stored in next_cmd and handled by doCommand()
  */
 #define NONE		 0u // vast majority of the time
 #define CMD			 1u // next item will be a command handled by doCommand2()
-#define DISCARD		 2u // discards the next byte
-#define DISCARD_2	 3u // discards the next 2 bytes
 
 #define POS_COL		10u // position col
 #define POS_ROW		11u // position row
@@ -117,6 +131,9 @@
 #define SER_NUM_1	60u	// set serial number byte 1
 #define SER_NUM_2	61u	// set serial number byte 2
 
+#define SET_LCD_TYPE	62u // set the large display value
+
+
 /**
  * Commands that are sent by the computer.
  * These are handled in doCommand2().
@@ -128,7 +145,7 @@
 #define ReadDisplayMin		  4u // Returns 1 byte, the current remaining time till display off, or 0
 #define ReadContrast		  5u // Returns 1 byte, the current contrast level
 #define ReadBacklight		  6u // Returns 1 byte, the current backlight level
-#define ReadCustom			  7u // [char:0-7] Returns 8 bytes, the 8 bytes of the current char
+#define ReadCustom			  7u // [char:0-7] Returns 8 bytes, the 8 bytes of the custom char
 #define ReadMessage			  8u // Returns 80 bytes, the current message
 #define ReadGPO				  9u // [1-5] Returns 1 byte, the current state of the GPO
 #define ReadGPOpwm			 10u // [1-5] Returns 1 byte, the current pwm of the GPO
@@ -137,7 +154,7 @@
 #define ReadSavedContrast	 15u // Returns 1 byte, the saved contrast level
 #define ReadSavedBacklight	 16u // Returns 1 byte, the saved backlight level
 #define ReadSavedCustom		 17u // [char:0-7] Returns 8 bytes, the 8 bytes of the saved char
-#define ReadSavedMessage	 18u // Returns 80 bytes, the saved startup message
+#define ReadSavedMessage	 18u // Returns 80 bytes, the (beginning of the) saved startup message
 #define ReadSavedGPO		 19u // [1-5] Returns 1 byte, the current state of the GPO
 #define ReadSavedGPOpwm		 20u // [1-5] Returns 1 byte, the current pwm of the GPO
 #define SetSerialNum		 52u // [2 bytes], can be called any number of times
@@ -153,7 +170,7 @@
 #define CursorOff			 75u
 #define CursorLeft			 76u
 #define CursorRight			 77u
-#define DefineCustom		 78u // [char:0-7][8 bytes]
+#define DefineCustom		 78u // [char:0-7][8 bytes], effects both LCD halves
 #define Contrast			 80u // [0-255]
 #define BlinkOn				 83u
 #define BlinkOff			 84u
@@ -167,9 +184,20 @@
 #define Backlight			152u // [0-255]
 #define GPOpwm_				192u // [1-5][0-255], duplicate of 102
 #define ReadButton			193u // [1-5], returns one character A-E (this is originally for reading fan RPM)
-#define RememberCustom		194u // [char:0-7][8 bytes]
+#define RememberCustom		194u // [char:0-7][8 bytes], effects both LCD halves
 #define RememberGPOpwm		195u // [1-5][0-255]
 #define RememberGPO			196u // [1-5][0-1]
 #define Char254				254u
+
+// Commands added in version 2 (support for 40x4 LCDs)
+// All commands ending with '2' will do nothing if GetLCDType is not a large display (such as LCD_DBL_HD44780)
+#define SetLCDType			 21u // [1 byte] see LCD_* for values, defaults to LCD_NONE if not understood; this setting is always remembered
+#define GetLCDType			 22u // Return 1 byte, one of the LCD_* values
+#define ReadMessage2		 23u // Returns 80 bytes, the end of the current message
+#define ReadSavedMessage2	 24u // Returns 80 bytes, the end of the saved startup message
+#define SaveStartup2	 	 25u // [80 chars] the end of the startup message to save
+//#define DefineCustom2		 26u // [lcd:0-1][char:0-7][8 bytes], effects only one LCD half, top for lcd=0, bottom otherwise
+//#define ReadCustom2		 27u // [char:0-7] Returns 8 bytes, the 8 bytes of the custom char from the bottom half of the display
+//#define RememberCustom2	 28u // [lcd:0-1][char:0-7][8 bytes], effects only one LCD half, top for lcd=0, bottom otherwise ! Probably don't have room to save
 
 #endif

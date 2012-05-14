@@ -1,5 +1,5 @@
 #include <p18cxxx.h>
-#include <xlcd.h>
+#include "xlcd.h"
 
 /********************************************************************
 *       Function Name:  BusyXLCD                                    *
@@ -13,18 +13,21 @@ unsigned char BusyXLCD(void)
         RW_PIN = 1;                     // Set the control bits for read
         RS_PIN = 0;
         DelayFor18TCY();
-        E_PIN = 1;                      // Clock in the command
+        E1_PIN = 1;                     // Clock in the command
+		E2_PIN = 1;
         DelayFor18TCY();
 #ifdef BIT8                             // 8-bit interface
         if(DATA_PORT&0x80)                      // Read bit 7 (busy bit)
         {                               // If high
-                E_PIN = 0;              // Reset clock line
+        		E1_PIN = 0;             // Reset clock line
+				E2_PIN = 0;
                 RW_PIN = 0;             // Reset control line
                 return 1;               // Return TRUE
         }
         else                            // Bit 7 low
         {
-                E_PIN = 0;              // Reset clock line
+        		E1_PIN = 0;             // Reset clock line
+				E2_PIN = 0;
                 RW_PIN = 0;             // Reset control line
                 return 0;               // Return FALSE
         }
@@ -35,24 +38,29 @@ unsigned char BusyXLCD(void)
         if(DATA_PORT&0x08)
 #endif
         {
-                E_PIN = 0;              // Reset clock line
+        		E1_PIN = 0;             // Reset clock line
+				E2_PIN = 0;
                 DelayFor18TCY();
-                E_PIN = 1;              // Clock out other nibble
+                E1_PIN = 1;             // Clock out other nibble
+				E2_PIN = 1;
                 DelayFor18TCY();
-                E_PIN = 0;
+        		E1_PIN = 0;             // Reset clock line
+				E2_PIN = 0;
                 RW_PIN = 0;             // Reset control line
                 return 1;               // Return TRUE
         }
         else                            // Busy bit is low
         {
-                E_PIN = 0;              // Reset clock line
+        		E1_PIN = 0;             // Reset clock line
+				E2_PIN = 0;
                 DelayFor18TCY();
-                E_PIN = 1;              // Clock out other nibble
+        		E1_PIN = 1;             // Clock out other nibble
+				E2_PIN = 1;
                 DelayFor18TCY();
-                E_PIN = 0;
+        		E1_PIN = 0;             // Reset clock line
+				E2_PIN = 0;
                 RW_PIN = 0;             // Reset control line
                 return 0;               // Return FALSE
         }
 #endif
 }
-

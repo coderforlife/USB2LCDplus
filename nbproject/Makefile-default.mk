@@ -41,11 +41,11 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/autofiles/usbdsc.o ${OBJECTDIR}/lcd/busyxlcd.o ${OBJECTDIR}/lcd/openxlcd.o ${OBJECTDIR}/lcd/putrxlcd.o ${OBJECTDIR}/lcd/putsxlcd.o ${OBJECTDIR}/lcd/readaddr.o ${OBJECTDIR}/lcd/readdata.o ${OBJECTDIR}/lcd/setcgram.o ${OBJECTDIR}/lcd/setddram.o ${OBJECTDIR}/lcd/wcmdxlcd.o ${OBJECTDIR}/lcd/writdata.o ${OBJECTDIR}/system/interrupt/interrupt.o ${OBJECTDIR}/system/usb/class/cdc/cdc.o ${OBJECTDIR}/system/usb/usb9/usb9.o ${OBJECTDIR}/system/usb/usbctrltrf/usbctrltrf.o ${OBJECTDIR}/system/usb/usbdrv/usbdrv.o ${OBJECTDIR}/system/usb/usbmmap.o ${OBJECTDIR}/main.o ${OBJECTDIR}/user/user.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/autofiles/usbdsc.o.d ${OBJECTDIR}/lcd/busyxlcd.o.d ${OBJECTDIR}/lcd/openxlcd.o.d ${OBJECTDIR}/lcd/putrxlcd.o.d ${OBJECTDIR}/lcd/putsxlcd.o.d ${OBJECTDIR}/lcd/readaddr.o.d ${OBJECTDIR}/lcd/readdata.o.d ${OBJECTDIR}/lcd/setcgram.o.d ${OBJECTDIR}/lcd/setddram.o.d ${OBJECTDIR}/lcd/wcmdxlcd.o.d ${OBJECTDIR}/lcd/writdata.o.d ${OBJECTDIR}/system/interrupt/interrupt.o.d ${OBJECTDIR}/system/usb/class/cdc/cdc.o.d ${OBJECTDIR}/system/usb/usb9/usb9.o.d ${OBJECTDIR}/system/usb/usbctrltrf/usbctrltrf.o.d ${OBJECTDIR}/system/usb/usbdrv/usbdrv.o.d ${OBJECTDIR}/system/usb/usbmmap.o.d ${OBJECTDIR}/main.o.d ${OBJECTDIR}/user/user.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/autofiles/usbdsc.o ${OBJECTDIR}/lcd/busyxlcd.o ${OBJECTDIR}/lcd/openxlcd.o ${OBJECTDIR}/lcd/putrxlcd.o ${OBJECTDIR}/lcd/putsxlcd.o ${OBJECTDIR}/lcd/readaddr.o ${OBJECTDIR}/lcd/readdata.o ${OBJECTDIR}/lcd/setcgram.o ${OBJECTDIR}/lcd/setddram.o ${OBJECTDIR}/lcd/wcmdxlcd.o ${OBJECTDIR}/lcd/writdata.o ${OBJECTDIR}/system/interrupt/interrupt.o ${OBJECTDIR}/system/usb/class/cdc/cdc.o ${OBJECTDIR}/system/usb/usb9/usb9.o ${OBJECTDIR}/system/usb/usbctrltrf/usbctrltrf.o ${OBJECTDIR}/system/usb/usbdrv/usbdrv.o ${OBJECTDIR}/system/usb/usbmmap.o ${OBJECTDIR}/main.o ${OBJECTDIR}/user/user.o ${OBJECTDIR}/lcd/senddataxlcd.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/autofiles/usbdsc.o.d ${OBJECTDIR}/lcd/busyxlcd.o.d ${OBJECTDIR}/lcd/openxlcd.o.d ${OBJECTDIR}/lcd/putrxlcd.o.d ${OBJECTDIR}/lcd/putsxlcd.o.d ${OBJECTDIR}/lcd/readaddr.o.d ${OBJECTDIR}/lcd/readdata.o.d ${OBJECTDIR}/lcd/setcgram.o.d ${OBJECTDIR}/lcd/setddram.o.d ${OBJECTDIR}/lcd/wcmdxlcd.o.d ${OBJECTDIR}/lcd/writdata.o.d ${OBJECTDIR}/system/interrupt/interrupt.o.d ${OBJECTDIR}/system/usb/class/cdc/cdc.o.d ${OBJECTDIR}/system/usb/usb9/usb9.o.d ${OBJECTDIR}/system/usb/usbctrltrf/usbctrltrf.o.d ${OBJECTDIR}/system/usb/usbdrv/usbdrv.o.d ${OBJECTDIR}/system/usb/usbmmap.o.d ${OBJECTDIR}/main.o.d ${OBJECTDIR}/user/user.o.d ${OBJECTDIR}/lcd/senddataxlcd.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/autofiles/usbdsc.o ${OBJECTDIR}/lcd/busyxlcd.o ${OBJECTDIR}/lcd/openxlcd.o ${OBJECTDIR}/lcd/putrxlcd.o ${OBJECTDIR}/lcd/putsxlcd.o ${OBJECTDIR}/lcd/readaddr.o ${OBJECTDIR}/lcd/readdata.o ${OBJECTDIR}/lcd/setcgram.o ${OBJECTDIR}/lcd/setddram.o ${OBJECTDIR}/lcd/wcmdxlcd.o ${OBJECTDIR}/lcd/writdata.o ${OBJECTDIR}/system/interrupt/interrupt.o ${OBJECTDIR}/system/usb/class/cdc/cdc.o ${OBJECTDIR}/system/usb/usb9/usb9.o ${OBJECTDIR}/system/usb/usbctrltrf/usbctrltrf.o ${OBJECTDIR}/system/usb/usbdrv/usbdrv.o ${OBJECTDIR}/system/usb/usbmmap.o ${OBJECTDIR}/main.o ${OBJECTDIR}/user/user.o
+OBJECTFILES=${OBJECTDIR}/autofiles/usbdsc.o ${OBJECTDIR}/lcd/busyxlcd.o ${OBJECTDIR}/lcd/openxlcd.o ${OBJECTDIR}/lcd/putrxlcd.o ${OBJECTDIR}/lcd/putsxlcd.o ${OBJECTDIR}/lcd/readaddr.o ${OBJECTDIR}/lcd/readdata.o ${OBJECTDIR}/lcd/setcgram.o ${OBJECTDIR}/lcd/setddram.o ${OBJECTDIR}/lcd/wcmdxlcd.o ${OBJECTDIR}/lcd/writdata.o ${OBJECTDIR}/system/interrupt/interrupt.o ${OBJECTDIR}/system/usb/class/cdc/cdc.o ${OBJECTDIR}/system/usb/usb9/usb9.o ${OBJECTDIR}/system/usb/usbctrltrf/usbctrltrf.o ${OBJECTDIR}/system/usb/usbdrv/usbdrv.o ${OBJECTDIR}/system/usb/usbmmap.o ${OBJECTDIR}/main.o ${OBJECTDIR}/user/user.o ${OBJECTDIR}/lcd/senddataxlcd.o
 
 
 CFLAGS=
@@ -190,6 +190,12 @@ ${OBJECTDIR}/user/user.o: user/user.c  nbproject/Makefile-${CND_CONF}.mk
 	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG -D__MPLAB_DEBUGGER_PICKIT2=1 -p$(MP_PROCESSOR_OPTION) -I"." --extended -sa -I ${MP_CC_DIR}\\..\\h  -fo ${OBJECTDIR}/user/user.o   user/user.c 
 	@${DEP_GEN} -d ${OBJECTDIR}/user/user.o 
 	
+${OBJECTDIR}/lcd/senddataxlcd.o: lcd/senddataxlcd.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/lcd 
+	@${RM} ${OBJECTDIR}/lcd/senddataxlcd.o.d 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG -D__MPLAB_DEBUGGER_PICKIT2=1 -p$(MP_PROCESSOR_OPTION) -I"." --extended -sa -I ${MP_CC_DIR}\\..\\h  -fo ${OBJECTDIR}/lcd/senddataxlcd.o   lcd/senddataxlcd.c 
+	@${DEP_GEN} -d ${OBJECTDIR}/lcd/senddataxlcd.o 
+	
 else
 ${OBJECTDIR}/autofiles/usbdsc.o: autofiles/usbdsc.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/autofiles 
@@ -304,6 +310,12 @@ ${OBJECTDIR}/user/user.o: user/user.c  nbproject/Makefile-${CND_CONF}.mk
 	@${RM} ${OBJECTDIR}/user/user.o.d 
 	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -I"." --extended -sa -I ${MP_CC_DIR}\\..\\h  -fo ${OBJECTDIR}/user/user.o   user/user.c 
 	@${DEP_GEN} -d ${OBJECTDIR}/user/user.o 
+	
+${OBJECTDIR}/lcd/senddataxlcd.o: lcd/senddataxlcd.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/lcd 
+	@${RM} ${OBJECTDIR}/lcd/senddataxlcd.o.d 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -I"." --extended -sa -I ${MP_CC_DIR}\\..\\h  -fo ${OBJECTDIR}/lcd/senddataxlcd.o   lcd/senddataxlcd.c 
+	@${DEP_GEN} -d ${OBJECTDIR}/lcd/senddataxlcd.o 
 	
 endif
 

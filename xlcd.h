@@ -37,12 +37,14 @@
 /* CTRL_PORT defines the port where the control lines are connected.
  * These are just samples, change to match your application.
  */
-#define RW_PIN   PORTBbits.RB2   /* PORT for RW */ 
-#define TRIS_RW  TRISBbits.TRISB2    /* TRIS for RW */ 
-#define RS_PIN   PORTBbits.RB1   /* PORT for RS */ 
-#define TRIS_RS  TRISBbits.TRISB1    /* TRIS for RS */ 
-#define E_PIN    PORTBbits.RB3   /* PORT for D  */ 
-#define TRIS_E   TRISBbits.TRISB3    /* TRIS for E  */
+#define RW_PIN   PORTBbits.RB1    /* PORT for RW */
+#define TRIS_RW  TRISBbits.TRISB1 /* TRIS for RW */
+#define RS_PIN   PORTBbits.RB3    /* PORT for RS */
+#define TRIS_RS  TRISBbits.TRISB3 /* TRIS for RS */
+#define E1_PIN   PORTBbits.RB2    /* PORT for E1 */
+#define TRIS_E1  TRISBbits.TRISB2 /* TRIS for E1 */
+#define E2_PIN   PORTCbits.RC6    /* PORT for E2 */
+#define TRIS_E2  TRISCbits.TRISC6 /* TRIS for E2 */
 
 /* Display ON/OFF Control defines */
 #define DON         0b00001111  /* Display on      */
@@ -68,11 +70,17 @@
 #define PARAM_SCLASS auto
 #define MEM_MODEL near  /* Change this to near for small memory model */
 
+#define LCD_1		1u
+#define LCD_2		2u
+#define LCD_BOTH	(LCD_1 | LCD_2)
+
 /* OpenXLCD
  * Configures I/O pins for external LCD
  */
 void OpenXLCD_1(void); //sets up pins and stuff but has no communication
 void OpenXLCD_2(PARAM_SCLASS unsigned char);
+
+void SendDataXLCD(unsigned char lcd);
 
 /* SetCGRamAddr
  * Sets the character generator address
@@ -97,22 +105,22 @@ unsigned char BusyXLCD(void);
 /* ReadDataXLCD
  * Reads a byte of data
  */
-char ReadDataXLCD(void);
+char ReadDataXLCD(unsigned char lcd);
 
 /* WriteCmdXLCD
  * Writes a command to the LCD
  */
-void WriteCmdXLCD(PARAM_SCLASS unsigned char);
+void WriteCmdXLCD(PARAM_SCLASS unsigned char, PARAM_SCLASS unsigned char);
 
 /* WriteDataXLCD
  * Writes a data byte to the LCD
  */
-void WriteDataXLCD(PARAM_SCLASS char);
+void WriteDataXLCD(PARAM_SCLASS unsigned char, PARAM_SCLASS char);
 
 /* putcXLCD
  * A putc is a write
  */
-#define putcXLCD WriteDataXLCD
+//#define putcXLCD WriteDataXLCD
 
 /* putsXLCD
  * Writes a string of characters to the LCD

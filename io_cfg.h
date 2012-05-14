@@ -64,8 +64,11 @@
 #define	CT			PORTBbits.RB0
 #define TRISCT		TRISBbits.TRISB0
 
-#define BL			PORTAbits.RA0
-#define TRISBL		TRISAbits.TRISA0
+#define BL			PORTCbits.RC7
+#define TRISBL		TRISCbits.TRISC7
+
+#define PWR			PORTAbits.RA0
+#define TRISPWR		TRISAbits.TRISA0
 
 #define BUT1		PORTAbits.RA1
 #define TRISBUT1	TRISAbits.TRISA1
@@ -91,10 +94,6 @@
 #define OUT3		PORTCbits.RC2
 #define TRISOUT3	TRISCbits.TRISC2
 
-#define OUT4		PORTCbits.RC6
-#define TRISOUT4	TRISCbits.TRISC6
-
-#define OUT5		PORTCbits.RC7
-#define TRISOUT5	TRISCbits.TRISC7
+// no more OUT4 or OUT5
 
 #endif //IO_CFG_H

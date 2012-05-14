@@ -17,6 +17,7 @@
       <itemPath>lcd/setddram.c</itemPath>
       <itemPath>lcd/wcmdxlcd.c</itemPath>
       <itemPath>lcd/writdata.c</itemPath>
+      <itemPath>lcd/senddataxlcd.c</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
