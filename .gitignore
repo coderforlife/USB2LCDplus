@@ -1,3 +1,11 @@
+# MPLAB Output Folders and Files
+_output
+build
+dist
+report.txt
+*.err
+*.i
+
 # Compiled Object files
 *.slo
 *.lo
