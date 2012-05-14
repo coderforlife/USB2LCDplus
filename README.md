@@ -1,12 +1,10 @@
 USB2LCD+
 ========
 
-USB Controller for general character LCDs.
-
+PIC18 USB Controller for HD44780 character LCDs.
 
 Some of this code is based on code by ch424.  
 The xlcd library is only slightly modified from the code given by Microchip.
-
 
 The important files are:
 * xlcd.h - Header file for lcd functions
@@ -19,7 +17,6 @@ The important files are:
  * `ProcessIO()` is called during every iteration
 * user\cmds.h - Includes tons of defines setting up LCD commands, serial commands, EEPROM storage locations
 * system\interrupt\interrupt.c - The high and low interrupt functions
-
 
 Within bootloader:
 * main.c - Programmer config, main controling functions, startup sequence, interrupt forwards, and dummy firmware
